@@ -1,7 +1,7 @@
 import requests
 import random
 import string
-import os
+import json
 
 def id_generator(size=4, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -50,7 +50,7 @@ def bamdad(n, serverOs, token):
                 "ha_enabled": True,
                 "server_volumes": []
             }
-        createServer = requests.pserverOst(
+        createServer = requests.post(
                         "https://napi.arvancloud.ir/ecc/v1/regions/ir-thr-w1/servers",json=serverData,
                         headers={
                             "Accept":"application/json",
@@ -83,7 +83,7 @@ def foroogh(n, token):
                 "ha_enabled": True,
                 "server_volumes": []
             }
-        createServer = requests.pserverOst(
+        createServer = requests.post(
                         "https://napi.arvancloud.ir/ecc/v1/regions/ir-thr-c2/servers",json=serverData,
                         headers={
                             "Accept":"application/json",
@@ -138,7 +138,7 @@ def shahriar(n, serverOs, token):
                 "ha_enabled": True,
                 "server_volumes": []
             }
-        createServer = requests.pserverOst(
+        createServer = requests.post(
                         "https://napi.arvancloud.ir/ecc/v1/regions/ir-tbz-dc1/servers",json=serverData,
                         headers={
                             "Accept":"application/json",
@@ -148,10 +148,12 @@ def shahriar(n, serverOs, token):
         print(createServer)
         n += 1
 
-token = os.environ["ARVANTOKEN"]
-n = os.environ['SERVERCOUNT']
-datacenter = os.environ['DATACENTER']
-serverOs = os.environ['SERVEROS']
+environmentFile = open('env.json')
+envs = json.load(environmentFile)
+token = envs["ARVANTOKEN"]
+n = envs["SERVERCOUNT"]
+datacenter = envs["DATACENTER"]
+serverOs = envs["SERVEROS"]
 if datacenter == "b":
     bamdad(n,serverOs, token)
 elif datacenter == "f":

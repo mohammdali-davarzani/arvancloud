@@ -1,0 +1,30 @@
+- name: Create server in arvancloud
+  hosts: localhost
+  vars:
+    - action: "d" # create server (c) / delete server (d)
+    - arvanToken: ""
+    - serverCount: 2
+    - datacenter: "b" # Bamdad (b) / Foroogh (f) / shahriar (sh)
+    - serverOs: "l" # Windows (w) / Linux (l)
+  gather_facts: no
+  become: yes
+  become_user: root
+  tasks:
+    - name: set variables
+      copy:
+        dest: ./env.json
+        content: |
+          {
+            "ARVANTOKEN":"{{ arvanToken }}",
+            "SERVERCOUNT":{{ serverCount }} ,
+            "DATACENTER":"{{ datacenter }}",
+            "SERVEROS":"{{ serverOs }}"
+          }
+    - name: run CreateServer.py
+      shell: python3 ./createServer.py
+      when: " '{{ action }}' == 'c'"
+
+
+    - name: run deleteServer.py
+      shell: python3 ./deleteServer.py
+      when: " '{{ action }}' == 'd'"
