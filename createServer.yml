@@ -1,0 +1,16 @@
+- name: Create server in arvancloud
+  hosts: localhost
+  vars:
+    - arvanToken: "" 
+    - serverCount: 1
+    - datacenter: "b" # Bamdad (b) / Foroogh (f) / shahriar (sh)
+    - serverOs: "w" # Windows (w) / Linux (l)
+  gather_facts: no
+  become: yes
+  become_user: root
+  tasks:
+    - name: set variables
+      shell: ARVANTOKEN={{ arvanToken }} && SERVERCOUNT={{ serverCount }} && DATACENTER={{ datacenter }} && SERVEROS={{ serverOs }}
+    
+    - name: run CreateServer.py
+      shell: python3 /var/lib/awx/project/arvancloud/createServer.py
