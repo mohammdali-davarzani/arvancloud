@@ -39,7 +39,7 @@ def bamdad(n, serverOs, token):
                 "network_ids": [
                     "e9e69b5c-0a0a-4f72-a2d6-55cb81ae6912"
                 ],
-                "flavor_id": "g3-16-8-0",
+                "flavor_id": "g3-8-4-0",
                 "image_id": "0a937fc8-ba42-4529-baf8-fbf94dbfdf56",
                 "security_groups": [
                     {
@@ -135,7 +135,7 @@ def shahriar(n, serverOs, token):
                 "network_ids": [
                     "2a0c41fd-8fb4-48df-910d-62998783680d"
                 ],
-                "flavor_id": "g2-32-8-0",
+                "flavor_id": "g2-8-4-0",
                 "image_id": "56331629-97ad-4460-910e-a95ebc35fe24",
                 "security_groups": [
                     {
