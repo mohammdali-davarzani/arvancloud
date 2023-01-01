@@ -2,11 +2,14 @@ import requests
 import random
 import string
 import json
+import time
+from awx import add_host
 
 def id_generator(size=4, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 def bamdad(n, serverOs, token):
+    servers = []
     for i in range(n):
         if serverOs == "w":
             serverData = {
@@ -58,9 +61,14 @@ def bamdad(n, serverOs, token):
                         })
         print(f"server number {n} Created")
         print(createServer)
+        if createServer.status_code == 201:
+            servers.append(json.loads(createServer.text)["data"]["id"])
         n += 1
-
+    time.sleep(15)
+    return servers
+    
 def foroogh(n, token):
+    servers = []
     for i in range(n):
         if serverOs == "w":
             serverData = {
@@ -92,9 +100,12 @@ def foroogh(n, token):
         print(f"server number {n} Created")
         print(createServer)
         n += 1
+    time.sleep(15)
+    return servers
 
 
 def shahriar(n, serverOs, token):
+    servers = []
     for i in range(n):
         if serverOs == "w":
             serverData = {
@@ -147,6 +158,8 @@ def shahriar(n, serverOs, token):
         print(f"server number {n} Created")
         print(createServer)
         n += 1
+    time.sleep(15)
+    return servers
 
 environmentFile = open('env.json')
 envs = json.load(environmentFile)
@@ -154,9 +167,19 @@ token = envs["ARVANTOKEN"]
 n = envs["SERVERCOUNT"]
 datacenter = envs["DATACENTER"]
 serverOs = envs["SERVEROS"]
+inventoryId = envs["INVENTORYID"]
+awxHost = envs["AWXHOST"]
+awxUser = envs["AWXUSER"]
+awxPass = envs["AWXPASS"]
+
 if datacenter == "b":
-    bamdad(n,serverOs, token)
+    servers = bamdad(n,serverOs, token)
+    add_host(token, datacenter, servers, inventoryId, awxHost, awxUser, awxPass)
 elif datacenter == "f":
-    foroogh(n, token)
+    servers = foroogh(n, token)
+    add_host(token, datacenter, servers, inventoryId, awxHost, awxUser, awxPass)
 elif datacenter == "sh": 
-    shahriar(n,serverOs, token)
+    servers = shahriar(n,serverOs, token)
+    add_host(token, datacenter, servers, inventoryId, awxHost, awxUser, awxPass)
+
+

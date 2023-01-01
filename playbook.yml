@@ -6,6 +6,10 @@
     - serverCount: 2
     - datacenter: "b" # Bamdad (b) / Foroogh (f) / shahriar (sh)
     - serverOs: "l" # Windows (w) / Linux (l)
+    - inventoryId = 6
+    - awxHost = ""
+    - awxUser = ""
+    - awxPass = ""
   gather_facts: no
   become: yes
   become_user: root
@@ -18,7 +22,11 @@
             "ARVANTOKEN":"{{ arvanToken }}",
             "SERVERCOUNT":{{ serverCount }} ,
             "DATACENTER":"{{ datacenter }}",
-            "SERVEROS":"{{ serverOs }}"
+            "SERVEROS":"{{ serverOs }}",
+            "INVENTORYID":"{{ inventoryId }}",
+            "AWXHOST":"{{ awxHost }}",
+            "AWXUSER":"{{ awxUser }}",
+            "AWXPASS":"{{ awxPass }}"
           }
     - name: run CreateServer.py
       shell: python3 ./createServer.py
