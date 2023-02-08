@@ -15,7 +15,8 @@ get_servers = requests.get(
 servers = json.loads(get_servers.text)
 for server in servers["data"]:
     id = server["id"]
-    if id != "6e2e4001-5caf-402f-a025-6a1b18e96531" and id != "6d9c9855-7d0a-4dc7-a08c-3d378bbe0f84":
+    tags = [tag["name"] for tag in server["tags"]]
+    if id != "6e2e4001-5caf-402f-a025-6a1b18e96531" and id != "6d9c9855-7d0a-4dc7-a08c-3d378bbe0f84" and 'Platform' not in tags:
         deletedServer = requests.delete(f"https://napi.arvancloud.ir/ecc/v1/regions/{datacenters[datacenter]}/servers/{id}?forceDelete={True}",headers={
                         "Accept":"application/json",
                         "Authorization":token
